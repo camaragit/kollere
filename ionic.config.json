@@ -1,0 +1,7 @@
+{
+  "name": "accordonlist",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

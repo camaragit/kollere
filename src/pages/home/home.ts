@@ -11,6 +11,7 @@ import {SplashScreen} from "@ionic-native/splash-screen";
 import {GateauxServiceProvider} from "../../providers/gateaux-service/gateaux-service";
 import {OneSignal} from "@ionic-native/onesignal";
 import {File} from "@ionic-native/file";
+import {RestauModePage} from "../restau-mode/restau-mode";
 
 
 /**
@@ -34,7 +35,7 @@ export class HomePage {
     this.header_data={title:"Home"};
     this.messages ={};
     this.pages = [
-      { title: 'Restaurant', component: RestaurantPage,icon:'restaurant' },
+      { title: 'Restaurant', component: RestauModePage,icon:'restaurant' },
       { title: 'Anniversaire', component: GateauxPage,icon:'fa fa-birthday-cake' },
       { title: 'Kolleré School', component: SchoolPage,icon:'md-school' },
       { title: 'Produits locaux', component: GateauxPage,icon:'md-cart' }
