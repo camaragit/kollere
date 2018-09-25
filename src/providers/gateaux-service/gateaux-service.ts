@@ -52,6 +52,7 @@ dismissloadin(){
     let alert = this.alertCtrl.create({
       title: 'Kollere',
       subTitle: message,
+      cssClass:'alertSucces',
       buttons: ['OK']
     });
     alert.present();
@@ -67,7 +68,6 @@ dismissloadin(){
     alert.present();
   }
    millier(valeur){
-
     valeur=valeur+"";
     valeur = valeur*1;
     //partie entiere avec separateur

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {GateauxServiceProvider} from "../../providers/gateaux-service/gateaux-service";
 import {ClientPage} from "../client/client";
+import {MonRestoPage} from "../mon-resto/mon-resto";
+import {CommandeMonRestoPage} from "../commande-mon-resto/commande-mon-resto";
 
 /**
  * Generated class for the FamillePage page.
@@ -24,8 +26,11 @@ export class FamillePage {
   isOn:any;
   restos:any;
   schoolitems:any;
+  restaurant:any=null;
+  tarifsResato:any=[]
   constructor(public navCtrl: NavController, public navParams: NavParams,private gCrtl:GateauxServiceProvider) {
     this.schoolitems = this.navParams.get("items");
+    this.restaurant = this.navParams.get("resto");
     if(this.schoolitems==null){
       this.famille = this.navParams.get("famille");
       this.gCrtl.afficheloading();
@@ -58,27 +63,64 @@ export class FamillePage {
       this.navCtrl.push(ClientPage,{itemschool:item});
     }
     else {
-      this.gCrtl.afficheloading();
-      this.gCrtl.getpost("http://services.ajit.sn/ws/resto/tarifsrestoitem?item="+encodeURI(item)+"&commerce=commerce")
-        .then(data=>{
-          this.gCrtl.dismissloadin();
-          this.restos = {};
-          let tab =[];
-          data.data = JSON.parse(data.data);
-          for(let i=0;i<data.data.length;i++)
-          {
-            if(data.data[i].item!=""){
-              tab.push(data.data[i])
+      if(this.restaurant==null)
+      {
+        this.gCrtl.afficheloading();
+        this.gCrtl.getpost("http://services.ajit.sn/ws/resto/tarifsrestoitem?item="+encodeURI(item)+"&commerce=commerce")
+          .then(data=>{
+            this.gCrtl.dismissloadin();
+            this.restos = {};
+            let tab =[];
+            data.data = JSON.parse(data.data);
+            for(let i=0;i<data.data.length;i++)
+            {
+              if(data.data[i].item!=""){
+                tab.push(data.data[i])
+              }
             }
+            this.restos.item = item;
+            this.restos.restos = tab;
+            this.restos.famille = this.famille;
+            if(this.restaurant==null)
+              this.navCtrl.push(ClientPage,{restos:this.restos});
+
+          }).catch(err=>{
+          this.gCrtl.dismissloadin();
+          this.gCrtl.showToast("Probleme de connexion");
+        })
+      }
+      else{
+        let  url = "http://services.ajit.sn/ws/resto/tarifsrestoitem?item="+encodeURI(item)+"&commerce="+encodeURI(this.restaurant);
+        console.log(url)
+        this.gCrtl.afficheloading();
+        this.gCrtl.getpost(url).then(data=>{
+          this.gCrtl.dismissloadin();
+          let rep = JSON.parse(data.data);
+          console.log(rep)
+          if(rep.code!="1")
+          {
+            this.tarifsResato=[];
+            for(let i=0;i<rep.length;i++)
+            {
+              if(rep[i].item!=""){
+                this.tarifsResato.push(rep[i]);
+              }
+            }
+            let params ={resto:this.restaurant,tarif:this.tarifsResato,famille:this.famille,item:item};
+            console.log("params "+JSON.stringify(params))
+            this.navCtrl.push(CommandeMonRestoPage,params)
+
           }
-          this.restos.item = item;
-          this.restos.restos = tab;
-          this.restos.famille = this.famille;
-          this.navCtrl.push(ClientPage,{restos:this.restos});
+          else{
+            this.gCrtl.showError(rep.message)
+          }
         }).catch(err=>{
-        this.gCrtl.dismissloadin();
-        this.gCrtl.showToast("Probleme de connexion");
-      })
+          this.gCrtl.dismissloadin();
+          this.gCrtl.showError("Probleme de connexion")
+        })
+
+      }
+
     }
 
 

@@ -182,7 +182,7 @@
                         *ngFor="let adresse of adresses.livraison">{{ adresse.adresse }}</ion-option>
           </ion-select>
           </ion-item>
-                    <ion-item *ngIf="client.controls.adresse.valid">
+            <ion-item *ngIf="client.controls.adresse.valid">
           <ion-label color="kollere">Prix Livraison :</ion-label><ion-label
                       color="kollere">{{ tariflivraison }}</ion-label>
         </ion-item>

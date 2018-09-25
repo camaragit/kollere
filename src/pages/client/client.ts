@@ -10,8 +10,6 @@ import {LoginPage} from "../login/login";
 import {UserpopoverPage} from "../userpopover/userpopover";
 import {GloabalVariable} from "../../providers/gateaux-service/GloabalVariable";
 import {PanierPage} from "../panier/panier";
-import {SchoolPage} from "../school/school";
-import {RestaurantPage} from "../restaurant/restaurant";
 
 /**
  * Generated class for the ClientPage page.
@@ -38,7 +36,6 @@ export class ClientPage {
   minDate :any;
   header_data:any;
   user:any=null;
-
   tabpart : Array<{description: string}>=[];
   tab =[
     {description: '0'},
@@ -192,7 +189,7 @@ export class ClientPage {
       this.client.controls['prixkollere'].setValue(this.dataclient.restos[i].valeurItem.prixKollere*this.client.controls['quantite'].value);
       let pourcentage = ((this.client.controls['prixkollere'].value*1) * 100 / (this.client.controls['prixboutique'].value*1))*1;
       // console.log("POURCENTAGE VAUT =====>"+pourcentage)
-      this.client.controls['reduction'].setValue(100 - pourcentage*1 );
+      this.client.controls['reduction'].setValue(Math.ceil(100 - pourcentage*1) );
 
     }
     //Kollere school
@@ -202,7 +199,7 @@ export class ClientPage {
       this.client.controls["prixkollere"].setValue(this.dataclient.valeurItem.prixKollere*this.client.controls['quantite'].value);
       let pourcentage = ((this.client.controls['prixkollere'].value*1) * 100 / (this.client.controls['prixboutique'].value*1))*1;
      // console.log("POURCENTAGE VAUT =====>"+pourcentage)
-      this.client.controls['reduction'].setValue(100 - pourcentage*1 );
+      this.client.controls['reduction'].setValue(Math.ceil(100 - pourcentage*1) );
 
     }
 
@@ -255,7 +252,7 @@ export class ClientPage {
       this.client.controls["prixkollere"].setValue(this.dataclient.restos[i].valeurItem.prixKollere*this.client.controls['quantite'].value);
       let pourcentage = ((this.client.controls['prixkollere'].value*1) * 100 / (this.client.controls['prixboutique'].value*1))*1;
       // console.log("POURCENTAGE VAUT =====>"+pourcentage)
-      this.client.controls['reduction'].setValue(100 - pourcentage*1 );
+      this.client.controls['reduction'].setValue(Math.ceil(100 - pourcentage*1) );
     }
     //school
     else{
@@ -263,7 +260,7 @@ export class ClientPage {
       this.client.controls["prixboutique"].setValue(this.dataclient.valeurItem.prixResto*this.client.controls['quantite'].value);
       this.client.controls["prixkollere"].setValue(this.dataclient.valeurItem.prixKollere*this.client.controls['quantite'].value);
       let pourcentage = ((this.client.controls['prixkollere'].value*1) * 100 / (this.client.controls['prixboutique'].value*1))*1;
-      this.client.controls['reduction'].setValue(100 - pourcentage*1 );
+      this.client.controls['reduction'].setValue(Math.ceil(100 - pourcentage*1) );
     }
 
 
@@ -364,7 +361,7 @@ export class ClientPage {
            this.client.controls['prixkollere'].setValue(val[0].valeurGateau.prixKollere);
            let pourcentage = (this.client.controls['prixkollere'].value *1) * 100 / (this.client.controls['prixboutique'].value *1);
            console.log("Pourcentage ====>"+pourcentage);
-         this.client.controls['reduction'].setValue(100 - pourcentage);
+         this.client.controls['reduction'].setValue(Math.ceil(100 - pourcentage*1));
          this.client.controls['gateauid'].setValue(val[0].gateau);
         console.log(JSON.parse(data.data));
        }).catch(err=>{
@@ -521,7 +518,6 @@ export class ClientPage {
 
           this.sauvegardepanier(reponse);
         this.storage.set("codepanier",reponse.panierid).then(d=>{
-         // console.log(JSON.stringify(d))
           let alert =this.alertCtrl.create({
             title: 'Commande enregistrée',
             message:"Désirez-vous commander autre chose?",

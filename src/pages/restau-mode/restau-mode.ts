@@ -25,11 +25,11 @@ import {MonRestoPage} from "../mon-resto/mon-resto";
 export class RestauModePage {
   header_data:any;
   user:any;
-  constructor(public navCtrl: NavController,private  file :File,private oneSignal:OneSignal,private gCrtl:GateauxServiceProvider,private splashScreen:SplashScreen,private platform :Platform,private popoverCtrl: PopoverController,private storage:Storage,public navParams: NavParams,private modalCrtl:ModalController) {
-    this.loaduser();
+
+  constructor(public navCtrl: NavController,private popoverCtrl: PopoverController,private storage:Storage,private modalCrtl:ModalController) {
+
   }
   pending(){
-    // this.gCrtl.showToast("En cours de developpement")
     let mod= this.modalCrtl.create(LoginPage,{},{cssClass: "test"});
     mod.present();
     mod.onDidDismiss(d=>{
@@ -56,16 +56,13 @@ export class RestauModePage {
 
   loaduser(){
     this.storage.get("user").then(val=>{
-      this.header_data.user = val;
       this.user = val;
-      if(val!=null)
-        this.oneSignal.sendTags({nom:val.nom,prenom:val.prenom,phone:val.telephone})
-
     })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RestauModePage');
+    this.loaduser();
   }
 
 }

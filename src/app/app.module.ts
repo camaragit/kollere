@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import {ErrorHandler, Injectable, Injector, NgModule} from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -34,7 +34,33 @@ import {LocalNotifications} from "@ionic-native/local-notifications";
 import {MessagePageModule} from "../pages/message/message.module";
 import {PublicitePageModule} from "../pages/publicite/publicite.module";
 import {File} from "@ionic-native/file";
+import {MonRestoPageModule} from "../pages/mon-resto/mon-resto.module";
+import {RestauModePageModule} from "../pages/restau-mode/restau-mode.module";
+import {CommandeMonRestoPageModule} from "../pages/commande-mon-resto/commande-mon-resto.module";
+import {Pro} from "@ionic/pro";
+Pro.init('f42292ae', {
+  appVersion: '2.0.4'
+})
+@Injectable()
+export class MyErrorHandler implements ErrorHandler {
+  ionicErrorHandler: IonicErrorHandler;
 
+  constructor(injector: Injector) {
+    try {
+      this.ionicErrorHandler = injector.get(IonicErrorHandler);
+    } catch(e) {
+      // Unable to get the IonicErrorHandler provider, ensure
+      // IonicErrorHandler has been added to the providers list below
+    }
+  }
+
+  handleError(err: any): void {
+    Pro.monitoring.handleNewError(err);
+    // Remove this if you want to disable Ionic's auto exception handling
+    // in development mode.
+    this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
+  }
+}
 @NgModule({
   declarations: [
     MyApp
@@ -49,7 +75,7 @@ import {File} from "@ionic-native/file";
     HomePageModule,RestaurantPageModule,ClientPageModule,SucesscommandePageModule,LoginPageModule,
     IonicStorageModule.forRoot(),UserpopoverPageModule,DetailsTicketPageModule,UpdatepasswordPageModule,
     SchoolPageModule,MesKolleresPageModule,FamillePageModule,PanierPageModule,LocalProductPageModule,
-    CadeauxPageModule,MessagePageModule,PublicitePageModule
+    CadeauxPageModule,MessagePageModule,PublicitePageModule,RestaurantPageModule,MonRestoPageModule,RestauModePageModule,CommandeMonRestoPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -61,7 +87,8 @@ import {File} from "@ionic-native/file";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
     ,WheelSelector,HTTP,ScreenOrientation,
-    GateauxServiceProvider,Toast,GloabalVariable,HeaderColor,OneSignal,LocalNotifications,File
+    GateauxServiceProvider,Toast,GloabalVariable,HeaderColor,OneSignal,LocalNotifications,File,
+    [{ provide: ErrorHandler, useClass: MyErrorHandler }],
   ]
 })
 export class AppModule {}

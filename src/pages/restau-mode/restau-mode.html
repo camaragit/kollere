@@ -22,18 +22,17 @@
   </ion-navbar>
 
 </ion-header>
-<!--<ion-header><headercomponent [header]="header_data" (montogglesearch)="pending()" (useroptions)="useroptions($event)" ></headercomponent></ion-header>-->
 <ion-content padding style="background-color: #E0F7FA">
 
   <fieldset>
 
     <div class="p-container padding-bottom">
       <div class="p-box" style="margin-top: 20px;">
-        <a ui-sref="app.voiture" *ngFor="let p of pages" (click)="verspage('tsrestos')">
+        <a (click)="verspage('tsrestos')">
           <div class="p-box-img">
             <i><ion-icon name="ios-restaurant-outline"  color="light"></ion-icon></i>
           </div>
-          <span class="p-box-title" style="color: white">Tous les restaurants</span>
+          <span class="p-box-title" style="color: white">Tout Restaurant</span>
         </a>
         <a   (click)="verspage('monresto')">
           <div class="p-box-img">
@@ -47,15 +46,7 @@
       <!-- <div proxi-scroll></div>
     --> </div>
   </fieldset>
-  <div class="branding padding" *ngIf="messages.message" >
 
-    <div style="background-color: #999900;color:white;border-radius: 10px;box-shadow: 1px 1px 1px 1px;  padding-bottom: 10px; padding-top: 20px; padding-left: 5px;margin-top: 20px;">
-      <div class="tagline" style="font-family: Georgia;text-align:justify; text-justify:newspaper; padding: 5px; margin: 10px;"><h2>{{ messages.code }}</h2></div>
-      <p style="text-align:justify; text-justify:newspaper; padding: 5px; margin: 10px;font-family: Georgia;margin-top: -20px;">
-        {{ messages.message }}
-      </p>
-    </div>
-  </div>
 
 </ion-content>
 

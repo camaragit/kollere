@@ -20,6 +20,7 @@
   width: 100%;
   color: #fff;
 }
+
 .md{
   .footerclass {
     margin-right: 15%;
@@ -55,7 +56,6 @@
   }
 }
 .alertDanger{
-  background-color: #E0F7FA;
   color: red;
   button{
     color: red;
@@ -104,7 +104,12 @@ button {
   }
 }
 
-
+.alertSucces {
+  color: green;
+  button {
+    color: green;
+  }
+}
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These

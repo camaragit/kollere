@@ -75,13 +75,21 @@ export class SchoolPage {
       reponse.data = JSON.parse(reponse.data);
       console.log(reponse.data)
       this.familles = [];
-
-      for(let i=0;i<reponse.data.length;i++)
+      let taille = reponse.data.length;
+      if(taille>0)
       {
-        if(reponse.data[i]!=null){
-          this.familles.push(reponse.data[i])
+        for(let i=0;i<taille;i++)
+        {
+          if(reponse.data[i]!=null){
+            this.familles.push(reponse.data[i])
+          }
         }
       }
+      else{
+        this.gCrtl.showError("Aucune famille trouvée pour cette école")
+      }
+
+
 
 
     }).catch(err=>{

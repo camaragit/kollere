@@ -3,7 +3,7 @@
 <ion-header>
   <!-- <headercomponent [header]="header_data" (montogglesearch)="toggleRecherche()"></headercomponent>-->
   <ion-navbar color="kollere">
-    <ion-title *ngIf="!isOn">{{ famille }}</ion-title>
+    <ion-title *ngIf="!isOn">{{ famille }} <span *ngIf="restaurant">({{ restaurant }})</span></ion-title>
     <button ion-button="" menuToggle="">
       <ion-icon name="menu"></ion-icon>
 

@@ -1,9 +1,4 @@
-<!--
-  Generated template for the RestaurantPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="kollere">
@@ -41,7 +36,7 @@
             <ion-option value="{{ ecole }}" *ngFor="let ecole of ecoles;">{{ ecole }}</ion-option>
           </ion-select>
         </ion-item>
-        <span *ngIf="client.controls.ecole.valid">
+        <span *ngIf="client.controls.ecole.valid && familles.length > 0">
           <ion-item>
             <ion-label style="color: #999900;font-weight: bold">Propose les familles suivantes : </ion-label>
           </ion-item>
