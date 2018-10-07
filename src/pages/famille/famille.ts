@@ -35,8 +35,9 @@ export class FamillePage {
     if(this.schoolitems==null){
       this.famille = this.navParams.get("famille");
       this.gCrtl.afficheloading();
-      let url ="http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille);
-      url+= this.restaurant!=null?"&commerce="+encodeURI(this.restaurant):"";
+     let rststandart = "http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille);
+
+      let url= this.restaurant!=null?"http://services.ajit.sn/ws/resto/listitemsfamillecommerce?famille="+encodeURI(this.famille)+"&commerce="+encodeURI(this.restaurant):rststandart;
       console.log(url);
       this.gCrtl.getpost(url).then(rep=>{
         this.gCrtl.dismissloadin();
