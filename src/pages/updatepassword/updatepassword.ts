@@ -41,7 +41,7 @@ export class UpdatepasswordPage {
       this.gCrtl.afficheloading();
       let url = "http://services.ajit.sn/ws/common/changepassword?email=";
       url+=encodeURI(this.datalogin.controls['login'].value)+"&oldmdp=";
-      url+=encodeURI(this.datalogin.controls['password'].value)+"&newmdp="+encodeURI(this.datalogin.controls['new'].value);
+      url+=encodeURI(this.datalogin.controls['password'].value)+"&newmdp="+encodeURI(this.datalogin.controls['newpassword'].value);
       console.log(url);
       this.gCrtl.getpost(url)
         .then(data=>{
