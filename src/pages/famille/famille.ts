@@ -31,10 +31,13 @@ export class FamillePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,private gCrtl:GateauxServiceProvider) {
     this.schoolitems = this.navParams.get("items");
     this.restaurant = this.navParams.get("resto");
+    //les restos standards
     if(this.schoolitems==null){
       this.famille = this.navParams.get("famille");
       this.gCrtl.afficheloading();
-      this.gCrtl.getpost("http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille)+"&commerce="+encodeURI(this.restaurant)).then(rep=>{
+      let url ="http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille);
+      url+= this.restaurant!=null?"&commerce="+encodeURI(this.restaurant):"";
+      this.gCrtl.getpost(url).then(rep=>{
         this.gCrtl.dismissloadin();
         rep.data = JSON.parse(rep.data);
         this.items =rep.data;
@@ -45,6 +48,7 @@ export class FamillePage {
         this.gCrtl.showToast("Probleme de connexion");
       })
     }
+    //les écoles
     else{
       this.famille = this.schoolitems.famille;
       this.items =this.schoolitems;
