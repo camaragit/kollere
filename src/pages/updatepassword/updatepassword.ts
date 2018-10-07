@@ -37,8 +37,13 @@ export class UpdatepasswordPage {
   goback(type){
     if(type==='update')
     {
+      console.log("je suis dans le update")
       this.gCrtl.afficheloading();
-      this.gCrtl.getpost("http://services.ajit.sn/ws/common/changepassword?email="+encodeURI(this.datalogin.controls['login'].value)+"&oldmdp="+encodeURI(this.datalogin.controls['password'].value)+"&newmdp="+encodeURI(this.datalogin.controls['new'].value))
+      let url = "http://services.ajit.sn/ws/common/changepassword?email=";
+      url+=encodeURI(this.datalogin.controls['login'].value)+"&oldmdp=";
+      url+=encodeURI(this.datalogin.controls['password'].value)+"&newmdp="+encodeURI(this.datalogin.controls['new'].value);
+      console.log(url);
+      this.gCrtl.getpost(url)
         .then(data=>{
         this.gCrtl.dismissloadin();
         let val = JSON.parse(data.data);
