@@ -34,7 +34,7 @@ export class FamillePage {
     if(this.schoolitems==null){
       this.famille = this.navParams.get("famille");
       this.gCrtl.afficheloading();
-      this.gCrtl.getpost("http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille)).then(rep=>{
+      this.gCrtl.getpost("http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille)+"&commerce="+encodeURI(this.restaurant)).then(rep=>{
         this.gCrtl.dismissloadin();
         rep.data = JSON.parse(rep.data);
         this.items =rep.data;

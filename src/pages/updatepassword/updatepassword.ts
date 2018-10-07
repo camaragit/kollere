@@ -41,12 +41,11 @@ export class UpdatepasswordPage {
       this.gCrtl.getpost("http://services.ajit.sn/ws/common/changepassword?email="+encodeURI(this.datalogin.controls['login'].value)+"&oldmdp="+encodeURI(this.datalogin.controls['password'].value)+"&newmdp="+encodeURI(this.datalogin.controls['new'].value))
         .then(data=>{
         this.gCrtl.dismissloadin();
-
         let val = JSON.parse(data.data);
         console.log(val)
         if(val.code=="0")
         {
-          this.gCrtl.showToast("Mot de passe modifié avec succès")
+          this.gCrtl.showToast("Mot de passe modifié avec succès");
           this.viewCrtl.dismiss();
         }
         else{
