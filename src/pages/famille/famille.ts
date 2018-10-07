@@ -37,6 +37,7 @@ export class FamillePage {
       this.gCrtl.afficheloading();
       let url ="http://services.ajit.sn/ws/resto/listitemsfamille?famille="+encodeURI(this.famille);
       url+= this.restaurant!=null?"&commerce="+encodeURI(this.restaurant):"";
+      console.log(url);
       this.gCrtl.getpost(url).then(rep=>{
         this.gCrtl.dismissloadin();
         rep.data = JSON.parse(rep.data);
