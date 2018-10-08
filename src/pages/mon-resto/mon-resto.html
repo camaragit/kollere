@@ -30,7 +30,7 @@
         <ion-item >
           <ion-label floating="" style="color: #999900;font-weight: bold">Choisir votre Restaurant</ion-label>
           <ion-select  [(ngModel)]="restaurant" icon-left (ionChange)="changementrestaurant()"  name="restaurant" interface="popover">
-            <ion-option value="{{ resto.nom }}" *ngFor="let resto of restaurants;">{{ resto.nom }}</ion-option>
+            <ion-option value="{{ resto.entrepriseAgent }}" *ngFor="let resto of restaurants;">{{ resto.entrepriseAgent }}</ion-option>
           </ion-select>
         </ion-item>
         <span *ngIf="familles && familles.length>0">
