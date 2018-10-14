@@ -414,39 +414,46 @@ export class ClientPage {
     this.navCtrl.setRoot(HomePage)
   }
   sendCommande(){
-    let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
+    if(this.user==null)
+    {
+      this.pending();
+    }
+    else{
+      let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
 
-    let url ="http://services.ajit.sn/ws/resto/gencodegateau?gateau="+this.client.controls['gateauid'].value+"&prenom="+encodeURI(this.client.controls['prenom'].value);
-    url+="&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value)+"&adresse="+encodeURI(this.client.controls['adresse'].value);
-   url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv);
-   this.gCtrl.afficheloading();
-   this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(data=>{
-     this.gCtrl.dismissloadin();
-     let val =JSON.parse(data.data);
-     if(val.code=="0")
-     {
-       val.operation="hbd";
-       val.type = this.globalData;
-       val.newtype = "hbd";
-       val.resto = this.client.controls['resto'].value;
+      let url ="http://services.ajit.sn/ws/resto/gencodegateau?gateau="+this.client.controls['gateauid'].value+"&prenom="+encodeURI(this.client.controls['prenom'].value);
+      url+="&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value)+"&adresse="+encodeURI(this.client.controls['adresse'].value);
+      url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv);
+      this.gCtrl.afficheloading();
+      this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(data=>{
+        this.gCtrl.dismissloadin();
+        let val =JSON.parse(data.data);
+        if(val.code=="0")
+        {
+          val.operation="hbd";
+          val.type = this.globalData;
+          val.newtype = "hbd";
+          val.resto = this.client.controls['resto'].value;
 
-      if(this.user!=null)
-      {
-        this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+val.ticket+"&email="+this.user.username)
-          .then(res=>{
+          if(this.user!=null)
+          {
+            this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+val.ticket+"&email="+this.user.username)
+              .then(res=>{
 
-        }).catch(err=>{
+              }).catch(err=>{
 
-        })
-      }
-       this.navCtrl.setRoot(SucesscommandePage,{data:val});
-     }
+            })
+          }
+          this.navCtrl.setRoot(SucesscommandePage,{data:val});
+        }
 
-     else this.gCtrl.showError(val.message);
-   }).catch(err=>{
-     this.gCtrl.dismissloadin();
-     this.gCtrl.showToast("Problème de connexion internet");
-   })
+        else this.gCtrl.showError(val.message);
+      }).catch(err=>{
+        this.gCtrl.dismissloadin();
+        this.gCtrl.showToast("Problème de connexion internet");
+      })
+    }
+
   }
   sauvegardepanier(reponse){
     //sauvegarde ticket panier
@@ -483,138 +490,143 @@ export class ClientPage {
     })
   }
   sendCommanderesto(){
+    if(this.user==null){
+      this.pending();
+    }
+    else{
+      this.storage.get("codepanier").then(data=>{
+        let codepanier = data!=null?data:0;
+        let url = "http://services.ajit.sn/ws/resto/loadingpanier?commerce="+encodeURI(this.client.controls['resto'].value);
+        url+="&panier="+codepanier+"&item="+encodeURI(this.dataclient.item);
+        url+="&prixresto="+this.client.controls['prixboutique'].value+"&prixkollere="+this.client.controls['prixkollere'].value;
+        url+="&quantite="+this.client.controls['quantite'].value;
+        if(this.aveclivraison==true)
+        {
+          let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
+          url+= "&prenom="+encodeURI(this.client.controls['prenom'].value)+"&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value);
+          url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv);
+        }
+        else {
+          url+= "&prenom=prenom&nom=nom&telephone=telephone&adresse=adresse&dateLivraison=dateLivraison";
+        }
+        console.log(url);
+        this.gCtrl.afficheloading();
+        this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(reponse=>{
+          this.gCtrl.dismissloadin();
+          reponse =JSON.parse(reponse.data);
+          if(reponse.code=="0"){
+            let ticketpanier= reponse.codepanier;
+            if(this.user!=null)
+            {
+              this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+ticketpanier+"&email="+this.user.username)
+                .then(res=>{
 
-    this.storage.get("codepanier").then(data=>{
-      let codepanier = data!=null?data:0;
-      let url = "http://services.ajit.sn/ws/resto/loadingpanier?commerce="+encodeURI(this.client.controls['resto'].value);
-      url+="&panier="+codepanier+"&item="+encodeURI(this.dataclient.item);
-      url+="&prixresto="+this.client.controls['prixboutique'].value+"&prixkollere="+this.client.controls['prixkollere'].value;
-      url+="&quantite="+this.client.controls['quantite'].value;
-      if(this.aveclivraison==true)
-      {
-        let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
-        url+= "&prenom="+encodeURI(this.client.controls['prenom'].value)+"&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value);
-        url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv);
-      }
-      else {
-        url+= "&prenom=prenom&nom=nom&telephone=telephone&adresse=adresse&dateLivraison=dateLivraison";
-      }
-      console.log(url);
-      this.gCtrl.afficheloading();
-      this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(reponse=>{
-        this.gCtrl.dismissloadin();
-        reponse =JSON.parse(reponse.data);
-        if(reponse.code=="0"){
-          let ticketpanier= reponse.codepanier;
-          if(this.user!=null)
-          {
-            this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+ticketpanier+"&email="+this.user.username)
-              .then(res=>{
+                }).catch(err=>{
 
-              }).catch(err=>{
+              })
+            }
+
+            this.sauvegardepanier(reponse);
+            this.storage.set("codepanier",reponse.panierid).then(d=>{
+              let alert =this.alertCtrl.create({
+                title: 'Commande enregistrée',
+                message:"Désirez-vous commander autre chose?",
+
+                buttons: [
+                  {
+                    text: 'Non',
+                    role: 'cancel',
+                    handler: () => {
+                      let urlp="http://services.ajit.sn/ws/resto/listpaniertems?codepanier="+ticketpanier;
+                      //   console.log("url========>"+urlp)
+                      this.gCtrl.afficheloading();
+                      this.gCtrl.getpost(urlp).then(data=>{
+                        this.gCtrl.dismissloadin();
+                        let val = JSON.parse(data.data);
+                        console.log(JSON.stringify(val));
+                        if(val.code=="0")
+                        {
+                          val.operation ="restaurant";
+                          val.newtype ="restaurant";
+                          this.navCtrl.setRoot(PanierPage,{panier:val});
+                        }
+
+                        else this.gCtrl.showError(val.message)
+                      }).catch(err=>{
+                        this.gCtrl.dismissloadin();
+                        this.gCtrl.showToast("Probleme de connexion")
+                      })
+                      //  console.log('Cancel clicked');
+                    }
+                  },
+                  {
+                    text: 'Oui',
+                    handler: () => {
+                      this.navCtrl.pop();
+                      /*    if(this.dataclient.ischool){
+                            this.navCtrl.setRoot(SchoolPage);
+                          } else{
+                            this.navCtrl.setRoot(RestaurantPage);
+                          }*/
+
+
+                    }
+                  }
+                ]
+              });
+              alert.present();
+
+            }).catch(err=>{
+              alert(JSON.stringify(err));
 
             })
-          }
 
-          this.sauvegardepanier(reponse);
-        this.storage.set("codepanier",reponse.panierid).then(d=>{
-          let alert =this.alertCtrl.create({
-            title: 'Commande enregistrée',
-            message:"Désirez-vous commander autre chose?",
-
-            buttons: [
-              {
-                text: 'Non',
-                role: 'cancel',
-                handler: () => {
-                  let urlp="http://services.ajit.sn/ws/resto/listpaniertems?codepanier="+ticketpanier;
-               //   console.log("url========>"+urlp)
-                  this.gCtrl.afficheloading();
-                  this.gCtrl.getpost(urlp).then(data=>{
-                    this.gCtrl.dismissloadin();
-                    let val = JSON.parse(data.data);
-                    console.log(JSON.stringify(val));
-                    if(val.code=="0")
-                    {
-                      val.operation ="restaurant";
-                      val.newtype ="restaurant";
-                      this.navCtrl.setRoot(PanierPage,{panier:val});
-                    }
-
-                    else this.gCtrl.showError(val.message)
-                  }).catch(err=>{
-                    this.gCtrl.dismissloadin();
-                    this.gCtrl.showToast("Probleme de connexion")
-                  })
-                //  console.log('Cancel clicked');
-                }
-              },
-              {
-                text: 'Oui',
-                handler: () => {
-                  this.navCtrl.pop();
-              /*    if(this.dataclient.ischool){
-                    this.navCtrl.setRoot(SchoolPage);
-                  } else{
-                    this.navCtrl.setRoot(RestaurantPage);
-                  }*/
-
-
-                }
-              }
-            ]
-          });
-          alert.present();
-
-        }).catch(err=>{
-          alert(JSON.stringify(err));
-
+          }else this.gCtrl.showError(reponse.message)
         })
 
-        }else this.gCtrl.showError(reponse.message)
+      }).catch(err=>{
+        this.gCtrl.dismissloadin();
+        console.log(JSON.stringify(err));
+        this.gCtrl.showToast("Problème de connexion internet");
       })
+      /*    let url ="http://services.ajit.sn/ws/resto/gencodeticket?nomcomerce="+encodeURI(this.client.controls['resto'].value);
+          url+= "&item="+encodeURI(this.dataclient.item)+"&prixrestaurant=";
+          url+=this.client.controls['prixboutique'].value+"&prixsurkollere="+this.client.controls['prixkollere'].value;
+          this.gCtrl.afficheloading();
+          console.log(this.gbv.requestmode);
+          console.log(url);
+          this.gCtrl.getpost(url,{},{requete:this.gbv.requestmode}).then(reponse=>{
+            this.gCtrl.dismissloadin();
+           //   alert(JSON.stringify(reponse.data))
+            let val =JSON.parse(reponse.data);
+              if(val.code=="0"){
+                val.operation="restaurant";
+                val.type = this.dataclient.item;
+                val.resto = this.client.controls['resto'].value;
+                //alert(JSON.stringify(val));
+                if(this.user!=null)
+                {
+                  this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+val.ticket+"&email="+this.user.username+"&telephone="+this.user.telephone)
+                    .then(res=>{
+                      //alert(JSON.stringify(res.data))
 
-    }).catch(err=>{
-      this.gCtrl.dismissloadin();
-     console.log(JSON.stringify(err));
-      this.gCtrl.showToast("Problème de connexion internet");
-    })
-/*    let url ="http://services.ajit.sn/ws/resto/gencodeticket?nomcomerce="+encodeURI(this.client.controls['resto'].value);
-    url+= "&item="+encodeURI(this.dataclient.item)+"&prixrestaurant=";
-    url+=this.client.controls['prixboutique'].value+"&prixsurkollere="+this.client.controls['prixkollere'].value;
-    this.gCtrl.afficheloading();
-    console.log(this.gbv.requestmode);
-    console.log(url);
-    this.gCtrl.getpost(url,{},{requete:this.gbv.requestmode}).then(reponse=>{
-      this.gCtrl.dismissloadin();
-     //   alert(JSON.stringify(reponse.data))
-      let val =JSON.parse(reponse.data);
-        if(val.code=="0"){
-          val.operation="restaurant";
-          val.type = this.dataclient.item;
-          val.resto = this.client.controls['resto'].value;
-          //alert(JSON.stringify(val));
-          if(this.user!=null)
-          {
-            this.gCtrl.getpost("http://services.ajit.sn/ws/resto/fideliseticket?ticket="+val.ticket+"&email="+this.user.username+"&telephone="+this.user.telephone)
-              .then(res=>{
-                //alert(JSON.stringify(res.data))
+                    }).catch(err=>{
 
-              }).catch(err=>{
-
-            })
-          }
+                  })
+                }
 
 
-    this.navCtrl.setRoot(SucesscommandePage,{data:val});
+          this.navCtrl.setRoot(SucesscommandePage,{data:val});
 
-        }
-    }).catch(erreur=>{
-      this.gCtrl.dismissloadin();
-      alert(JSON.stringify(erreur));
-      this.gCtrl.showToast("Problème de connexion internet");
+              }
+          }).catch(erreur=>{
+            this.gCtrl.dismissloadin();
+            alert(JSON.stringify(erreur));
+            this.gCtrl.showToast("Problème de connexion internet");
 
-    })*/
+          })*/
+    }
+
   }
 
 
