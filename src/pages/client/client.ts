@@ -383,7 +383,7 @@ export class ClientPage {
       ],
     }).then(
       result => {
-        alert(JSON.stringify(result));
+        //alert(JSON.stringify(result));
         this.client.controls['nbbougie'].setValue(result[0].description);
       },
       err => console.log('Error: ', err)
