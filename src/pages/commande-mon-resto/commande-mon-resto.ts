@@ -7,6 +7,7 @@ import {LoginPage} from "../login/login";
 import {Storage} from "@ionic/storage";
 import {PanierPage} from "../panier/panier";
 import {GloabalVariable} from "../../providers/gateaux-service/GloabalVariable";
+import {HomePage} from "../home/home";
 
 /**
  * Generated class for the CommandeMonRestoPage page.
@@ -162,6 +163,9 @@ export class CommandeMonRestoPage {
   formaterdate(date){
     return date.substr(8,2)+"-"+date.substr(5,2)+"-"+date.substr(0,4);
 
+  }
+  goback(){
+    this.navCtrl.setRoot(HomePage);
   }
   sendCommanderesto(){
 
