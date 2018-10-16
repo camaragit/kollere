@@ -183,7 +183,7 @@ export class CommandeMonRestoPage {
         {
           let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
           url+= "&prenom="+encodeURI(this.client.controls['prenom'].value)+"&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value);
-          url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv);
+          url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv)+"$numtel="+this.user.telephone;
         }
         else {
           url+= "&prenom=prenom&nom=nom&telephone=telephone&adresse=adresse&dateLivraison=dateLivraison";

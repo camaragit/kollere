@@ -423,7 +423,7 @@ export class ClientPage {
 
       let url ="http://services.ajit.sn/ws/resto/gencodegateau?gateau="+this.client.controls['gateauid'].value+"&prenom="+encodeURI(this.client.controls['prenom'].value);
       url+="&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value)+"&adresse="+encodeURI(this.client.controls['adresse'].value);
-      url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv);
+      url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv)+"$numtel="+this.user.telephone;
       this.gCtrl.afficheloading();
       this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(data=>{
         this.gCtrl.dismissloadin();
@@ -504,7 +504,7 @@ export class ClientPage {
         {
           let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
           url+= "&prenom="+encodeURI(this.client.controls['prenom'].value)+"&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value);
-          url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv);
+          url+= "&adresse="+encodeURI(this.client.controls['adresse'].value)+"&dateLivraison="+encodeURI(datliv)+"$numtel="+this.user.telephone;
         }
         else {
           url+= "&prenom=prenom&nom=nom&telephone=telephone&adresse=adresse&dateLivraison=dateLivraison";
