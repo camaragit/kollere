@@ -423,7 +423,7 @@ export class ClientPage {
 
       let url ="http://services.ajit.sn/ws/resto/gencodegateau?gateau="+this.client.controls['gateauid'].value+"&prenom="+encodeURI(this.client.controls['prenom'].value);
       url+="&nom="+encodeURI(this.client.controls['nom'].value)+"&telephone="+encodeURI(this.client.controls['phone'].value)+"&adresse="+encodeURI(this.client.controls['adresse'].value);
-      url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv)+"$numtel="+this.user.telephone;
+      url+="&bougie="+this.client.controls['nbbougie'].value+"&message="+encodeURI(this.client.controls['texte'].value)+"&date="+encodeURI(datliv)+"&numtel="+this.user.telephone;
       this.gCtrl.afficheloading();
       this.gCtrl.getpost(url,{},{requetemode:this.gbv.requestmode}).then(data=>{
         this.gCtrl.dismissloadin();
@@ -499,7 +499,7 @@ export class ClientPage {
         let url = "http://services.ajit.sn/ws/resto/loadingpanier?commerce="+encodeURI(this.client.controls['resto'].value);
         url+="&panier="+codepanier+"&item="+encodeURI(this.dataclient.item);
         url+="&prixresto="+this.client.controls['prixboutique'].value+"&prixkollere="+this.client.controls['prixkollere'].value;
-        url+="&quantite="+this.client.controls['quantite'].value+"$numtel="+this.user.telephone;
+        url+="&quantite="+this.client.controls['quantite'].value+"&numtel="+this.user.telephone;
         if(this.aveclivraison==true)
         {
           let datliv = this.formaterdate(this.client.controls['datelivraison'].value);

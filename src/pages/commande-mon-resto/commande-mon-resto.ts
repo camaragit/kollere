@@ -179,7 +179,7 @@ export class CommandeMonRestoPage {
         let url = "http://services.ajit.sn/ws/resto/loadingpanier?commerce="+encodeURI(this.client.controls['resto'].value);
         url+="&panier="+codepanier+"&item="+encodeURI(this.item);
         url+="&prixresto="+this.client.controls['prixboutique'].value+"&prixkollere="+this.client.controls['prixkollere'].value;
-        url+="&quantite="+this.client.controls['quantite'].value+"$numtel="+this.user.telephone;
+        url+="&quantite="+this.client.controls['quantite'].value+"&numtel="+this.user.telephone;
         if(this.aveclivraison==true)
         {
           let datliv = this.formaterdate(this.client.controls['datelivraison'].value);
