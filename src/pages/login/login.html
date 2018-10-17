@@ -24,6 +24,7 @@
             <img  src="assets/imgs/login.jpg"/>
           </ion-card>
         </ion-item>
+        <p style="color: green;font-weight: bold">Pour avoir un compte,achetez une carte Kolleré.<br> Tel: 33 950 29 74</p>
         <ion-item>
           <ion-label color="kollere" floating="">E-mail ou N° Téléphone</ion-label>
           <ion-input type="email" formControlName="login"></ion-input>
@@ -40,9 +41,7 @@
           *ngIf="((datalogin.controls.password.hasError('required')) ) && datalogin.controls.password.touched">
           <p class="erreur">Saisir votre mot de passe </p>
         </ion-item>
-        <ion-item no-lines="">
-          <p style="color: green;font-weight: bold">Pour avoir un compte, <br>achetez une carte Kolleré.<br> Tel: 33 950 29 74</p>
-        </ion-item>
+
         <ion-item no-lines="">
           <ion-buttons  >
             <button style="width:40%" item-end round ion-button icon-start color="danger" (click)="goback('cancel')">
