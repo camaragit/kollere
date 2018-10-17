@@ -28,7 +28,7 @@ export class GateauxServiceProvider {
 
   getpost(url:string,body:any={},headers:any={}):any{
     headers.type_requete = "MOBILE";
-    headers.withcard=1
+    headers.withcard='1';
     console.log(headers);
     return this.http.post(url,body,headers);
   }
