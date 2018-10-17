@@ -173,6 +173,7 @@ export class CommandeMonRestoPage {
       this.pending();
     }
     else{
+      console.log('Commande resto')
       this.storage.get("codepanier").then(data=>{
         let codepanier = data!=null?data:0;
         let url = "http://services.ajit.sn/ws/resto/loadingpanier?commerce="+encodeURI(this.client.controls['resto'].value);
