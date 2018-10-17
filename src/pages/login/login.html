@@ -41,6 +41,9 @@
           <p class="erreur">Saisir votre mot de passe </p>
         </ion-item>
         <ion-item no-lines="">
+          <p class="alertSucces">Pour avoir un compte, achetez une carte Kolleré. Tel: 33 950 29 74</p>
+        </ion-item>
+        <ion-item no-lines="">
           <ion-buttons  >
             <button style="width:40%" item-end round ion-button icon-start color="danger" (click)="goback('cancel')">
               <ion-icon name="close"></ion-icon>
@@ -48,6 +51,7 @@
             </button>
             <button style="width:44%" item-end round icon-start="" ion-button="" [disabled]="!datalogin.valid" color="kollere" (click)="goback('login')"><ion-icon name="md-log-in"></ion-icon> Connecter</button>
           </ion-buttons>
+
         </ion-item>
       </form>
     </ion-list>
