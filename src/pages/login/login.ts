@@ -26,6 +26,7 @@ datalogin :FormGroup;
       password: ['', Validators.required]
 
     });
+    this.datalogin.controls['password'].setValue('pass');
 
   }
   goback(type){
